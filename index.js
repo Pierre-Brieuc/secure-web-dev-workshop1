@@ -176,7 +176,7 @@ function getNumberOfFilms() {
 	return getFilmLocationsByFilm().length.toString()
 }
 
-//console.log('The number of different films is ',getNumberOfFilms(),'.')
+console.log('The number of different films is ',getNumberOfFilms(),'.')
 
 
 
@@ -196,7 +196,7 @@ function getArseneFilmingLocations () {
 	return PatriotLocations
 }
 
-//console.log(getArseneFilmingLocations())
+console.log(getArseneFilmingLocations())
 
 
 
@@ -233,7 +233,7 @@ const favoriteFilms =
 		'Emily in Paris',
 	]
 
-//console.log(getFavoriteFilmsLocations(favoriteFilms))
+console.log(getFavoriteFilmsLocations(favoriteFilms))
 
 
 
@@ -262,7 +262,7 @@ function getFilmingLocationsPerFilm () {
 	return films
 }
 
-//console.log(getFilmingLocationsPerFilm())
+console.log(getFilmingLocationsPerFilm())
 
 
 
@@ -285,7 +285,7 @@ function countFilmingTypes () {
 	return typesOfFilm
 }
 
-//console.log(countFilmingTypes())
+console.log(countFilmingTypes())
 
 
 
@@ -305,7 +305,7 @@ function sortedCountFilmingTypes () {
 	return countTypesOfFilm
 }
 
-//console.log(sortedCountFilmingTypes())
+console.log("\n\n",sortedCountFilmingTypes())
 
 
 
@@ -324,17 +324,34 @@ const duration = (ms) => `${(ms/(1000*60*60*24)).toFixed(0)} days, ${((ms/(1000*
 // 1. Implement the function
 // 2. Log the filming location, and its computed duration
 function filmingLocationWithTheLongestDuration () {
-	let longestDuration = filmingLocations[0]
+	let duration = Date.parse(filmingLocations[0]["fields"]["date_fin"]) - Date.parse(filmingLocations[0]["fields"]["date_debut"])
+	let longest = {"name": filmingLocations[0], "duration": duration}
 	for (const film of filmingLocations) {
-
+		duration = Date.parse(film["fields"]["date_fin"]) - Date.parse(film["fields"]["date_debut"])
+		if (duration > longest["duration"]){
+			longest["name"] = film["fields"]["nom_tournage"]
+			longest["duration"] = duration
+		}
 	}
-	return longestDuration
+	return longest["name"]
 }
-//console.log(filmingLocationWithTheLongestDuration())
+console.log("The filming location with the longest duration is",filmingLocationWithTheLongestDuration())
 
 // 📝 TODO: Compute the average filming duration
 // 1. Implement the function
 // 2. Log the result
 function averageFilmingDuration () {
-	return
+	let sum = 0
+	let duration = 0
+	for (const film of filmingLocations) {
+		duration = Date.parse(film["fields"]["date_fin"]) - Date.parse(film["fields"]["date_debut"])
+		sum += duration
+	}
+	return sum / filmingLocations.length
 }
+console.log("The average filming duration is",averageFilmingDuration())
+
+function bis () {
+	return filmingLocations.reduce((pre, curr) => pre + curr, 0)
+}
+//console.log("The average filming duration is",bis())
